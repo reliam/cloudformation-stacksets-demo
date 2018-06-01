@@ -25,6 +25,8 @@ Amazon publishes Cloudformation templates which can be leveraged for the setup a
 #### Deploy the service role to management account
 
 ```
+echo -e "[+] Creating Cloudformation Stack in Management account '${MANAGEMENT_ACCOUNT}' for Cloudformation service assume role"
+sleep 1
 $ aws cloudformation create-stack \
     --template-url "${ADMIN_STACK_URL}" \
     --stack-name "${ADMIN_STACK_NAME}" \
@@ -41,7 +43,9 @@ This account will hold an IAM role that the management account assumes a role in
 You can do this via CLI if you have API access, otherwise, go into the console on the target account and launch the above ExecutionRole stack.
 
 ```
-$ aws cloudformation create-stack \
+echo -e "[+] Creating Cloudformation Stack in Target account '${TARGET_ACCOUNT}' for management account Cloudformation service to assume a role"
+sleep 1
+aws cloudformation create-stack \
     --template-url "${TARGET_STACK_URL}" \
     --stack-name "${TARGET_STACK_NAME}" \
     --region ${DEFAULT_REGION} \
@@ -56,6 +60,8 @@ $ aws cloudformation create-stack \
 The Stack Set is just a resource that encompasses any number of stacks underneath it. The Stack Set is configured as a single resource with a Cloudformation template applied to it. After the Stack Set is created, you can add additional stacks and target accounts to start deploying outward.
 
 ```
+echo -e "[+] Creating Cloudformation Stack Set in Management account '${MANAGEMENT_ACCOUNT}' with template '${EXAMPLE_TEMPLATE_FILE}'"
+sleep 1
 aws cloudformation create-stack-set \
     --template-body "file://${EXAMPLE_TEMPLATE_FILE}" \
     --stack-set-name "${EXAMPLE_TEMPLATE_NAME}" \
@@ -68,9 +74,11 @@ aws cloudformation create-stack-set \
 Once the stack set is available, you deploy a *stack set instance* to it containing the AWS account ID of each target account you want to deploy resources to. You also can specify multiple regions for the instance to deploy to.
 
 ```
+echo -e "[+] Creating Cloudformation Stack Instance in Management account '${MANAGEMENT_ACCOUNT}' and deploying resources"
+sleep 1
 aws cloudformation create-stack-instances \
     --stack-set-name "${EXAMPLE_TEMPLATE_NAME}" \
-    --accounts "xxxxxxxxxxxx" \
+    --accounts "${TARGET_ACCOUNT}" \
     --regions "us-east-1" "us-east-2" "us-west-1" "us-west-2" \
     --region "${DEFAULT_REGION}"
 ```
