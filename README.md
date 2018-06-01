@@ -11,6 +11,7 @@ EXAMPLE_TEMPLATE_FILE="example-stackset-template.yml"
 EXAMPLE_TEMPLATE_NAME="example-hello-world-lambda"
 MANAGEMENT_ACCOUNT="" # 12 digit account id
 TARGET_ACCOUNT="" # 12 digit account id
+TARGET_PROFILE="" # AWSCLI profile name for target account
 DEFAULT_REGION="us-east-1"
 ```
 
@@ -27,7 +28,7 @@ Amazon publishes Cloudformation templates which can be leveraged for the setup a
 ```
 echo -e "[+] Creating Cloudformation Stack in Management account '${MANAGEMENT_ACCOUNT}' for Cloudformation service assume role"
 sleep 1
-$ aws cloudformation create-stack \
+aws cloudformation create-stack \
     --template-url "${ADMIN_STACK_URL}" \
     --stack-name "${ADMIN_STACK_NAME}" \
     --region "${DEFAULT_REGION}" \
@@ -50,7 +51,7 @@ aws cloudformation create-stack \
     --stack-name "${TARGET_STACK_NAME}" \
     --region ${DEFAULT_REGION} \
     --capabilities CAPABILITY_NAMED_IAM \
-    --profile "awscli_profile_target_account" \
+    --profile "${TARGET_PROFILE}" \
     --parameters ParameterKey=AdministratorAccountId,ParameterValue=${MANAGEMENT_ACCOUNT}
 ```
 
