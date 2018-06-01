@@ -23,7 +23,7 @@ This account will use an IAM service role to assume a role into other accounts a
 
 Amazon publishes Cloudformation templates which can be leveraged for the setup and are referenced above in the metadata.
 
-#### Deploy the service role to management account
+#### Deploy the service IAM role to management account
 
 ```
 echo -e "[+] Creating Cloudformation Stack in Management account '${MANAGEMENT_ACCOUNT}' for Cloudformation service assume role"
@@ -39,7 +39,7 @@ aws cloudformation create-stack \
 
 This account will hold an IAM role that the management account assumes a role into.
 
-#### Deploy the service role
+#### Deploy the IAM role the management account assumes to deploy resources in the "target" account
 
 You can do this via CLI if you have API access, otherwise, go into the console on the target account and launch the above ExecutionRole stack.
 
