@@ -7,7 +7,7 @@ ADMIN_STACK_URL="https://s3.amazonaws.com/cloudformation-stackset-sample-templat
 ADMIN_STACK_NAME="reliam-stackset-admin-demo"
 TARGET_STACK_URL="https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml"
 TARGET_STACK_NAME="reliam-stackset-execution-demo"
-EXAMPLE_TEMPLATE_URL="https://raw.githubusercontent.com/reliam/cloudformation-stacksets-demo/master/example-stackset-template.yml"
+EXAMPLE_TEMPLATE_FILE="example-stackset-template.yml"
 EXAMPLE_TEMPLATE_NAME="example-hello-world-lambda"
 MANAGEMENT_ACCOUNT="" # 12 digit account id
 TARGET_ACCOUNT="" # 12 digit account id
@@ -57,7 +57,7 @@ The Stack Set is just a resource that encompasses any number of stacks underneat
 
 ```
 aws cloudformation create-stack-set \
-    --template-url "${EXAMPLE_TEMPLATE_URL}" \
+    --template-body "file://${EXAMPLE_TEMPLATE_FILE}" \
     --stack-set-name "${EXAMPLE_TEMPLATE_NAME}" \
     --region "${DEFAULT_REGION}" \
     --capabilities CAPABILITY_NAMED_IAM
